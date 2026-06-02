@@ -1,6 +1,14 @@
 # Configuração principal do sistema
 
-{ config, stable, unstable, lib, inputs, pkgs, ... }:
+{
+  config,
+  stable,
+  unstable,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -20,37 +28,48 @@
     ./noctalia.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Bootloader
-  boot.supportedFilesystems        = [ "xfs" ];
-  boot.loader.systemd-boot.enable      = true;
+  boot.supportedFilesystems = [ "xfs" ];
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Rede
-  networking.hostName              = "nekachine";
+  networking.hostName = "nekachine";
   networking.networkmanager.enable = true;
 
   # Fuso horário e locale
-  time.timeZone      = "America/Sao_Paulo";
+  time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "pt_BR.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS        = "pt_BR.UTF-8";
+    LC_ADDRESS = "pt_BR.UTF-8";
     LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT    = "pt_BR.UTF-8";
-    LC_MONETARY       = "pt_BR.UTF-8";
-    LC_NAME           = "pt_BR.UTF-8";
-    LC_NUMERIC        = "pt_BR.UTF-8";
-    LC_PAPER          = "pt_BR.UTF-8";
-    LC_TELEPHONE      = "pt_BR.UTF-8";
-    LC_TIME           = "pt_BR.UTF-8";
+    LC_MEASUREMENT = "pt_BR.UTF-8";
+    LC_MONETARY = "pt_BR.UTF-8";
+    LC_NAME = "pt_BR.UTF-8";
+    LC_NUMERIC = "pt_BR.UTF-8";
+    LC_PAPER = "pt_BR.UTF-8";
+    LC_TELEPHONE = "pt_BR.UTF-8";
+    LC_TIME = "pt_BR.UTF-8";
   };
 
   # Usuário
   users.users.nek = {
     isNormalUser = true;
-    description  = "nek";
-    extraGroups  = [ "networkmanager" "wheel" "root" "input" "video" "audio" "seat" "podman" "docker" ];
+    description = "nek";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "root"
+      "input"
+      "video"
+      "audio"
+      "seat"
+      "podman"
+      "docker"
+    ];
   };
 
   services.udev.extraRules = ''
@@ -62,7 +81,7 @@
   services.gnome.gnome-keyring.enable = true;
 
   virtualisation.podman = {
-    enable       = true;
+    enable = true;
     dockerCompat = true;
   };
 

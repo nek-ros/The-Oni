@@ -60,6 +60,9 @@
     stable.nixd
     stable.nil
     stable.libsecret
+    stable.nixfmt
+    stable.gh
+    stable.heroic
 
     # Spicetify CLI
     stable.spicetify-cli
@@ -69,7 +72,6 @@
     stable.python3Packages.pip
     stable.podman
     stable.devbox
-    stable.
 
     # Editores
     stable.vscode
@@ -174,10 +176,10 @@
     enable = true;
     shellAliases = {
       ll = "ls -la";
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.config/home-manager#nixos";
       trash = "sudo nix-collect-garbage -d";
       hm = "home-manager switch";
-      update-flake = "nix flake update noctalia --flake ~/.config/home-manager/flake.nix && home-manager switch --flake .";
+      update-flake = "nix flake update --flake /home/nek/.config/home-manager && home-manager switch --flake /home/nek/.config/home-manager";
     };
     enableCompletion = true;
     autosuggestion.enable = true;
