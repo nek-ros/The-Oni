@@ -3,11 +3,19 @@
 #
 # Aplique com: home-manager switch --flake .
 
-{ pkgs, lib, config, stable, unstable, noctalia, spicetify-nix, ... }: {
+{
+  pkgs,
+  stable,
+  unstable,
+  noctalia,
+  spicetify-nix,
+  ...
+}:
+{
   # ── Identidade ──────────────────────────────────────────────────────────────
-  home.username      = "nek";
+  home.username = "nek";
   home.homeDirectory = "/home/nek";
-  home.stateVersion  = "26.05";
+  home.stateVersion = "26.05";
 
   # ── Noctalia homeModule ─────────────────────────────────────────────────────
   imports = [
@@ -18,13 +26,13 @@
   programs.noctalia.enable = true;
   services.gnome-keyring.enable = true;
 
-
   # ── Spicetify ───────────────────────────────────────────────────────────────
 
   programs.spicetify =
     let
       spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-    in {
+    in
+    {
       enable = true;
       theme = spicePkgs.themes.starryNight;
       colorScheme = "Base";
@@ -61,6 +69,7 @@
     stable.python3Packages.pip
     stable.podman
     stable.devbox
+    stable.
 
     # Editores
     stable.vscode
@@ -122,9 +131,9 @@
 
   # ── Cursor ──────────────────────────────────────────────────────────────────
   home.pointerCursor = {
-    name    = "Adwaita";
+    name = "Adwaita";
     package = stable.adwaita-icon-theme;
-    size    = 24;
+    size = 24;
     gtk.enable = true;
     x11.enable = true;
   };
@@ -132,27 +141,31 @@
   # ── Portals ──────────────────────────────────────────────────────────────────
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+    ];
     config.common.default = "*";
   };
 
-
   # ── Variáveis de sessão ─────────────────────────────────────────────────────
   home.sessionVariables = {
+    NIX_PATH = "nixpkgs=channel:nixos-unstable";
+
     # Cursor
     XCURSOR_THEME = "Adwaita";
-    XCURSOR_SIZE  = "24";
+    XCURSOR_SIZE = "24";
 
     # Wayland
     NIXOS_OZONE_WL = "1";
-    GTK_CSD        = "0";
+    GTK_CSD = "0";
 
     # Qt
-    QT_QPA_PLATFORM                     = "wayland";
+    QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
     # GPU / Mesa
-    LIBVA_DRIVER_NAME          = "radeonsi";
+    LIBVA_DRIVER_NAME = "radeonsi";
     MESA_SHADER_CACHE_MAX_SIZE = "12G";
   };
 
@@ -160,14 +173,14 @@
   programs.zsh = {
     enable = true;
     shellAliases = {
-      ll      = "ls -la";
+      ll = "ls -la";
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
-      trash   = "sudo nix-collect-garbage -d";
-      hm       = "home-manager switch";
+      trash = "sudo nix-collect-garbage -d";
+      hm = "home-manager switch";
       update-flake = "nix flake update noctalia --flake ~/.config/home-manager/flake.nix && home-manager switch --flake .";
     };
-    enableCompletion          = true;
-    autosuggestion.enable     = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
   };
 
@@ -179,11 +192,11 @@
   systemd.user.services.h510-volume = {
     Unit = {
       Description = "H510 headset ALSA volume restore";
-      After       = [ "pipewire-pulse.service" ];
+      After = [ "pipewire-pulse.service" ];
     };
     Install.WantedBy = [ "default.target" ];
     Service = {
-      Type            = "oneshot";
+      Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = pkgs.writeShellScript "h510-volume" ''
         sleep 3
