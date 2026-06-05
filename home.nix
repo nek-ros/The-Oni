@@ -113,7 +113,7 @@
       poppins
     ])
     ++ (with unstable; [
-      # Editores (frescos)
+      # Editores
       neovim
       vscode
       zed-editor
