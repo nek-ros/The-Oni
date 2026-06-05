@@ -1,7 +1,7 @@
 # Pacotes do sistema — disponíveis para todos os usuários
 # Pacotes pessoais do nek estão em ~/.config/home-manager/home.nix
 
-{ stable, unstable, pkgs, ... }:
+{ unstable, pkgs, ... }:
 
 {
   environment.systemPackages = with unstable; [

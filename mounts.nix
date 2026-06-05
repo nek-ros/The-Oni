@@ -1,6 +1,6 @@
 # Montagem do SSD de Jogos
 
-{ config, lib, stable, ... }:
+{ ... }:
 
 {
   # ── TRIM semanal ────────────────────────────────────────────────────────────

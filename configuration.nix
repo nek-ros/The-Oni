@@ -1,14 +1,6 @@
 # Configuração principal do sistema
 
-{
-  config,
-  stable,
-  unstable,
-  lib,
-  inputs,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -16,12 +8,10 @@
     ./amd-gpu.nix
     ./linuxtoys-otmz.nix
     ./mounts.nix
-    ./h510-headset.nix
     ./experimental.nix
     ./desktop.nix
     ./audio.nix
     ./packages.nix
-    ./fonts.nix
     ./flatpak.nix
     ./maintenance.nix
     ./mango.nix

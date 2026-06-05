@@ -1,6 +1,6 @@
 # Manutenção: garbage collection e auto-upgrade
 
-{ inputs, ... }:
+{ ... }:
 
 {
   # Garbage collection automático
@@ -13,7 +13,7 @@
   # Auto-upgrade do sistema
   system.autoUpgrade = {
     enable      = true;
-    flake       = "/etc/nixos";
+    flake       = "/home/nek/.config/home-manager";
     dates       = "daily";
     allowReboot = false;  # true = reinicia automaticamente se necessário
   };

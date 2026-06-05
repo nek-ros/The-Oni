@@ -14,7 +14,7 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/fde14b1ec3ec72bb0abb5c5ce19f177dda0442f1";
+      url = "github:noctalia-dev/noctalia-shell/45370aec653f0b3a2bf7df7766474ad5149508be";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -39,6 +39,7 @@
       noctalia,
       spicetify-nix,
       home-manager,
+
       ...
     }@inputs:
     let

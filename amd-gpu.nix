@@ -1,14 +1,17 @@
 # Ativação e configuração do AMD-GPU
 
-{ config, lib, stable, unstable, ... }:
+{
+  unstable,
+  ...
+}:
 
 {
-  hardware.graphics.enable              = true;
-  hardware.graphics.enable32Bit         = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   hardware.enableRedistributableFirmware = true;
 
   boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules        = [ "tcp_bbr" "uinput" ];
+  boot.kernelModules = [ "uinput" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   boot.kernelParams = [

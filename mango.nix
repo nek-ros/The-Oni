@@ -1,4 +1,4 @@
-{ config, unstable, inputs, ... }:
+{ ... }:
 
 {
     programs.mango = {

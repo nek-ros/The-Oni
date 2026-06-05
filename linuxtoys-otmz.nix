@@ -1,6 +1,6 @@
 # Otimização direta do LinuxToys com auditação
 
-{ config, lib, stable, ... }:
+{ stable, ... }:
 
 {
   # Scheduler

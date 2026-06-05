@@ -1,7 +1,7 @@
 # Home Manager — nek
 # ~/.config/home-manager/home.nix
 #
-# Aplique com: home-manager switch --flake .
+# Aplique com: home-manager switch --flake . / /  = hm
 
 {
   pkgs,
@@ -51,82 +51,87 @@
     };
 
   # ── Pacotes pessoais ────────────────────────────────────────────────────────
-  home.packages = [
-    # Utilitários
-    stable.git
-    stable.fastfetch
-    stable.terminal-toys
-    stable.pipes
-    stable.nixd
-    stable.nil
-    stable.libsecret
-    stable.nixfmt
-    stable.gh
-    stable.heroic
+  home.packages =
+    (with stable; [
+      # Utilitários
+      git
+      fastfetch
+      terminal-toys
+      pipes
+      nixd
+      nil
+      libsecret
+      nixfmt
+      gh
 
-    # Spicetify CLI
-    stable.spicetify-cli
+      # Spicetify CLI
+      spicetify-cli
 
-    # Dev
-    stable.python3
-    stable.python3Packages.pip
-    stable.podman
-    stable.devbox
+      # Dev
+      python3
+      python3Packages.pip
+      podman
+      devbox
+      eza
 
-    # Editores
-    stable.vscode
-    stable.zed-editor
+      # Desktop / UI'
+      mission-center
+      adwaita-icon-theme
+      nwg-look
+      adw-gtk3
+      kdePackages.dolphin
+      kdePackages.qt6ct
+      libsForQt5.qt5ct
+      kdePackages.kcolorscheme
+      kdePackages.partitionmanager
 
-    # Desktop / UI'
-    stable.mission-center
-    stable.adwaita-icon-theme
-    stable.nwg-look
-    stable.adw-gtk3
-    stable.kdePackages.dolphin
-    stable.kdePackages.qt6ct
-    stable.libsForQt5.qt5ct
-    stable.kdePackages.kcolorscheme
-    stable.kdePackages.partitionmanager
+      # Terminais
+      alacritty
+      foot
 
-    # Terminais
-    stable.alacritty
-    stable.foot
+      # Distrobox
+      distrobox
 
-    # Multimídia
-    stable.discord
+      # Fontes
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.hack
+      nerd-fonts.meslo-lg
+      nerd-fonts.inconsolata
+      nerd-fonts.noto
+      nerd-fonts.roboto-mono
+      nerd-fonts.ubuntu-mono
+      nerd-fonts.iosevka
+      nerd-fonts.symbols-only
+      nerd-fonts.adwaita-mono
+      nerd-fonts.mononoki
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
+      liberation_ttf
+      cantarell-fonts
+      poppins
+    ])
+    ++ (with unstable; [
+      # Editores (frescos)
+      neovim
+      vscode
+      zed-editor
 
-    # Gaming
-    stable.prismlauncher
-    unstable.protonplus
-    stable.faugus-launcher
+      # Multimídia / redes
+      discord
+      brave
 
-    # Captura / gravação
-    stable.hyprshot
-    stable.gpu-screen-recorder
+      # Gaming
+      heroic
+      prismlauncher
+      protonplus
+      faugus-launcher
 
-    # Distrobox
-    stable.distrobox
-
-    # Fontes
-    stable.nerd-fonts.fira-code
-    stable.nerd-fonts.jetbrains-mono
-    stable.nerd-fonts.hack
-    stable.nerd-fonts.meslo-lg
-    stable.nerd-fonts.inconsolata
-    stable.nerd-fonts.noto
-    stable.nerd-fonts.roboto-mono
-    stable.nerd-fonts.ubuntu-mono
-    stable.nerd-fonts.iosevka
-    stable.nerd-fonts.symbols-only
-    stable.nerd-fonts.adwaita-mono
-    stable.nerd-fonts.mononoki
-    stable.noto-fonts
-    stable.noto-fonts-cjk-sans
-    stable.noto-fonts-color-emoji
-    stable.liberation_ttf
-    stable.cantarell-fonts
-    stable.poppins
-  ];
+      # Captura
+      hyprshot
+      gpu-screen-recorder
+    ]);
 
   # ── Fontconfig ──────────────────────────────────────────────────────────────
   fonts.fontconfig.enable = true;
@@ -140,14 +145,14 @@
     x11.enable = true;
   };
 
-  # ── Portals ──────────────────────────────────────────────────────────────────
+  # Portais
   xdg.portal = {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-wlr
-      pkgs.xdg-desktop-portal-gtk
     ];
-    config.common.default = "*";
+    configPackages = [ pkgs.xdg-desktop-portal-wlr ];
+    config.common.default = "wlr";
   };
 
   # ── Variáveis de sessão ─────────────────────────────────────────────────────
@@ -161,6 +166,7 @@
     # Wayland
     NIXOS_OZONE_WL = "1";
     GTK_CSD = "0";
+    XDG_CURRENT_DESKTOP = "MangoWM";
 
     # Qt
     QT_QPA_PLATFORM = "wayland";
@@ -174,46 +180,47 @@
   # ── Zsh ─────────────────────────────────────────────────────────────────────
   programs.zsh = {
     enable = true;
+
     shellAliases = {
       ll = "ls -la";
+      vim = "nvim";
+      vi = "nvim";
       rebuild = "sudo nixos-rebuild switch --flake ~/.config/home-manager#nixos";
       trash = "sudo nix-collect-garbage -d";
       hm = "home-manager switch";
       update-flake = "nix flake update --flake /home/nek/.config/home-manager && home-manager switch --flake /home/nek/.config/home-manager";
     };
+
+    history.size = 10000;
+    history.ignoreAllDups = true;
+    history.path = "$HOME/.zsh_history";
+    history.ignorePatterns = [
+      "rm *"
+      "pkill *"
+      "cp *"
+    ];
+
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
   };
 
+  # ── Oh-My-Zsh ────────────────────────────────────────────────────────────────
+  programs.zsh.oh-my-zsh = {
+    enable = true;
+    plugins = [
+      "git"
+      "z"
+      "aliases"
+      "eza"
+      "gh"
+
+    ];
+    theme = "gozilla";
+  };
+
   # ── Starship ────────────────────────────────────────────────────────────────
   programs.starship.enable = true;
-
-  # ── Serviço systemd de usuário: H510 headset ────────────────────────────────
-  # (§4 do h510-headset.nix — as partes com root ficam no nixos/h510-headset.nix)
-  systemd.user.services.h510-volume = {
-    Unit = {
-      Description = "H510 headset ALSA volume restore";
-      After = [ "pipewire-pulse.service" ];
-    };
-    Install.WantedBy = [ "default.target" ];
-    Service = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "h510-volume" ''
-        sleep 3
-        CARD=$(${stable.alsa-utils}/bin/aplay -l 2>/dev/null \
-               | grep -i "H510" \
-               | grep -oP 'card \K[0-9]+' \
-               | head -1)
-        [ -z "$CARD" ] && exit 0
-        ${stable.alsa-utils}/bin/amixer -c "$CARD" cset numid=9 100,100 &>/dev/null || true
-        ${stable.alsa-utils}/bin/amixer -c "$CARD" cset numid=10 100    &>/dev/null || true
-        ${stable.alsa-utils}/bin/amixer -c "$CARD" cset numid=7  on,on  &>/dev/null || true
-        ${stable.alsa-utils}/bin/amixer -c "$CARD" cset numid=8  on     &>/dev/null || true
-      '';
-    };
-  };
 
   # ── home-manager gerencia a si mesmo ────────────────────────────────────────
   programs.home-manager.enable = true;

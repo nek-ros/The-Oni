@@ -1,6 +1,11 @@
 # Desktop: tuigreet, Mango, teclado, portais, Steam, gamemode
 
-{ unstable, stable, ... }:
+{
+  pkgs,
+  unstable,
+  stable,
+  ...
+}:
 
 {
   services.greetd = {
@@ -27,16 +32,16 @@
   services.gvfs.enable = true;
   services.udisks2.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ unstable.kdePackages.xdg-desktop-portal-kde ];
-    xdgOpenUsePortal = true;
-  };
-
-  # Variáveis de hardware — nível de sistema
+  # Variáveis de ambiente — nível de sistema
   environment.variables = {
     AMD_VULKAN_ICD = "RADV";
+    NIXOS_OZONE_WL = "1";
   };
+
+  # Força NIXOS_OZONE_WL no systemd user manager
+  systemd.user.extraConfig = ''
+    DefaultEnvironment=NIXOS_OZONE_WL=1
+  '';
 
   # Gaming
   programs.gamescope = {
@@ -51,6 +56,21 @@
   programs.firefox.enable = true;
   programs.zsh.enable = true;
   programs.dconf.enable = true;
+
+  # Portais — necessário em nível NixOS pros systemd services rodarem
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr # ← adiciona esse
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    configPackages = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.common.default = "wlr"; # ← prioriza wlr
+  };
+
   programs.nix-ld = {
     enable = true;
     # libraries = [ ... ]; opcional
