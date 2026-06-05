@@ -145,16 +145,6 @@
     x11.enable = true;
   };
 
-  # Portais
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-wlr
-    ];
-    configPackages = [ pkgs.xdg-desktop-portal-wlr ];
-    config.common.default = "wlr";
-  };
-
   # ── Variáveis de sessão ─────────────────────────────────────────────────────
   home.sessionVariables = {
     NIX_PATH = "nixpkgs=channel:nixos-unstable";

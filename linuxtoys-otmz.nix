@@ -24,7 +24,7 @@
     freeSwapThreshold = 2;
     freeMemThreshold  = 2;
     extraArgs = [
-      "-g" "--avoid" "'^(X|plasma.*|konsole|kwin|wayland|gnome.*|mangowm.*|noctalia.*)$'"
+      "-g" "--avoid" "^(X|plasma.*|konsole|kwin|wayland|gnome.*|mangowm.*|noctalia.*)$"
     ];
   };
 

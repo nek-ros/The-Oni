@@ -68,8 +68,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  services.gnome.gnome-keyring.enable = true;
-
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
